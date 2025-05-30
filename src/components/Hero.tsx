@@ -1,24 +1,5 @@
 
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
-import { Suspense } from 'react';
-
-const AnimatedSphere = () => {
-  return (
-    <Sphere visible args={[1, 100, 200]} scale={2}>
-      <MeshDistortMaterial
-        color="#00ffff"
-        attach="material"
-        distort={0.3}
-        speed={1.5}
-        roughness={0}
-        transparent
-        opacity={0.8}
-      />
-    </Sphere>
-  );
-};
 
 const Hero = () => {
   const scrollToContact = () => {
@@ -88,21 +69,34 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* 3D Sphere */}
+          {/* Animated Visual Element - Replacing 3D with CSS Animation */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="h-96 lg:h-[500px]"
+            className="h-96 lg:h-[500px] flex items-center justify-center"
           >
-            <Canvas>
-              <Suspense fallback={null}>
-                <OrbitControls enableZoom={false} enablePan={false} />
-                <ambientLight intensity={0.5} />
-                <directionalLight position={[-2, 5, 2]} intensity={1} />
-                <AnimatedSphere />
-              </Suspense>
-            </Canvas>
+            <motion.div
+              animate={{ 
+                rotate: 360,
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ 
+                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
+                scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+              }}
+              className="relative w-64 h-64 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 p-1"
+            >
+              <div className="w-full h-full rounded-full bg-gray-900 flex items-center justify-center">
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                  className="text-6xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent"
+                >
+                  AJ
+                </motion.div>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
