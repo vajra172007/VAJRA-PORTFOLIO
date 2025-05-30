@@ -145,7 +145,7 @@ const Skills = () => {
                   curveSegments={12}
                 >
                   SKILLS
-                  <meshStandardMaterial color="#00ffff" />
+                  <meshStandardMaterial attach="material" color="#00ffff" />
                 </Text3D>
               </Center>
             </Suspense>
