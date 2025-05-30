@@ -10,15 +10,19 @@ import ParticleBackground from '../components/ParticleBackground';
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-gray-900 text-white overflow-x-hidden relative">
+      {/* Background layer - lowest z-index */}
       <ParticleBackground />
+      
+      {/* Navigation - high z-index for overlay */}
       <Navigation />
       
+      {/* Main content - middle z-index */}
       <motion.main
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10"
+        className="relative z-20"
       >
         <Hero />
         <About />

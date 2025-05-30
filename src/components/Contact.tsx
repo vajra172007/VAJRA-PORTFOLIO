@@ -70,7 +70,7 @@ const Contact = () => {
 
   return (
     <section id="contact" ref={ref} className="py-20 px-4 sm:px-6 lg:px-8 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/10 to-gray-900/50" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/10 to-gray-900/50 pointer-events-none" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -106,7 +106,7 @@ const Contact = () => {
                     transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                     className="flex items-center space-x-4"
                   >
-                    <div className="flex-shrink-0 w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-700">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gray-800/50 rounded-lg flex items-center justify-center border border-gray-700">
                       <info.icon className="w-5 h-5 text-cyan-400" />
                     </div>
                     <div>
@@ -139,10 +139,10 @@ const Contact = () => {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1, y: -5 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-700 hover:border-cyan-400 hover:bg-gray-700 transition-all duration-300"
+                    className="w-12 h-12 bg-gray-800/50 rounded-lg flex items-center justify-center border border-gray-700 hover:border-cyan-400 hover:bg-gray-700/50 transition-all duration-300"
                     aria-label={social.label}
                   >
-                    <social.icon className="w-5 h-5 text-gray-400 hover:text-cyan-400" />
+                    <social.icon className="w-5 h-5 text-gray-400 hover:text-cyan-400 transition-colors" />
                   </motion.a>
                 ))}
               </div>
@@ -154,6 +154,7 @@ const Contact = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
+            className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -168,7 +169,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-gray-400"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
                     placeholder="Your Name"
                   />
                 </div>
@@ -183,7 +184,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-gray-400"
+                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
                     placeholder="your.email@example.com"
                   />
                 </div>
@@ -200,7 +201,7 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-gray-400"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-gray-400 transition-all duration-300"
                   placeholder="Project Discussion"
                 />
               </div>
@@ -216,7 +217,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-gray-400 resize-none"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-cyan-400 focus:border-transparent text-white placeholder-gray-400 resize-none transition-all duration-300"
                   placeholder="Tell me about your project..."
                 />
               </div>
@@ -226,7 +227,7 @@ const Contact = () => {
                 disabled={isSubmitting}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg transition-all duration-300 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="w-full px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg transition-all duration-300 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-lg"
               >
                 {isSubmitting ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

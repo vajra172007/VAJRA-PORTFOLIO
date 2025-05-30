@@ -45,7 +45,7 @@ const Navigation = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800"
+      className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md border-b border-gray-800"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
@@ -62,7 +62,7 @@ const Navigation = () => {
               <motion.button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`relative px-4 py-2 text-sm font-medium transition-colors ${
                   activeSection === item.href.slice(1)
@@ -85,7 +85,7 @@ const Navigation = () => {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2"
+            className="md:hidden p-2 z-50 relative"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </motion.button>
@@ -95,8 +95,11 @@ const Navigation = () => {
       {/* Mobile Menu */}
       <motion.div
         initial={false}
-        animate={{ height: isOpen ? 'auto' : 0 }}
-        className="md:hidden overflow-hidden bg-gray-800/95 backdrop-blur-md"
+        animate={{ 
+          height: isOpen ? 'auto' : 0,
+          opacity: isOpen ? 1 : 0
+        }}
+        className="md:hidden overflow-hidden bg-gray-900/98 backdrop-blur-md border-t border-gray-800"
       >
         <div className="px-4 py-2 space-y-2">
           {menuItems.map((item) => (
@@ -104,7 +107,7 @@ const Navigation = () => {
               key={item.name}
               onClick={() => scrollToSection(item.href)}
               whileHover={{ x: 10 }}
-              className="block w-full text-left px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-colors"
+              className="block w-full text-left px-4 py-3 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-colors"
             >
               {item.name}
             </motion.button>

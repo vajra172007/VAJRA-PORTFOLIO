@@ -57,7 +57,7 @@ const Projects = () => {
 
   return (
     <section id="projects" ref={ref} className="py-20 px-4 sm:px-6 lg:px-8 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/5 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/5 to-transparent pointer-events-none" />
       
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -82,21 +82,12 @@ const Projects = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              onHoverStart={() => setHoveredProject(project.id)}
-              onHoverEnd={() => setHoveredProject(null)}
-              className={`relative group cursor-pointer ${
-                project.featured ? 'md:col-span-2 lg:col-span-1' : ''
-              }`}
+              onMouseEnter={() => setHoveredProject(project.id)}
+              onMouseLeave={() => setHoveredProject(null)}
+              className="relative group cursor-pointer"
             >
-              <div className="relative overflow-hidden rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50">
-                <motion.div
-                  animate={{
-                    scale: hoveredProject === project.id ? 1.05 : 1,
-                    rotateY: hoveredProject === project.id ? 5 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="relative"
-                >
+              <div className="relative overflow-hidden rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 transition-transform duration-300 hover:scale-[1.02]">
+                <div className="relative">
                   <div className="aspect-video overflow-hidden">
                     <img
                       src={project.image}
@@ -106,18 +97,18 @@ const Projects = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent" />
                   </div>
 
+                  {/* Hover overlay */}
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0 }}
                     animate={{
                       opacity: hoveredProject === project.id ? 1 : 0,
-                      y: hoveredProject === project.id ? 0 : 20,
                     }}
                     transition={{ duration: 0.3 }}
-                    className="absolute inset-0 bg-gray-900/90 backdrop-blur-sm flex items-center justify-center"
+                    className="absolute inset-0 bg-gray-900/90 backdrop-blur-sm flex items-center justify-center z-10"
                   >
-                    <div className="text-center p-8">
+                    <div className="text-center p-8 max-w-sm">
                       <h3 className="text-2xl font-bold text-white mb-4">{project.title}</h3>
-                      <p className="text-gray-300 mb-6">{project.description}</p>
+                      <p className="text-gray-300 mb-6 text-sm">{project.description}</p>
                       <div className="flex justify-center space-x-4">
                         <motion.a
                           whileHover={{ scale: 1.1 }}
@@ -142,7 +133,7 @@ const Projects = () => {
                       </div>
                     </div>
                   </motion.div>
-                </motion.div>
+                </div>
 
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
