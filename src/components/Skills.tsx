@@ -1,9 +1,6 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Text3D, Center } from '@react-three/drei';
-import { Suspense } from 'react';
 
 const Skills = () => {
   const { ref, inView } = useInView({
@@ -124,32 +121,17 @@ const Skills = () => {
           })}
         </div>
 
-        {/* 3D Skills Visualization */}
+        {/* Placeholder for 3D Visualization - temporarily removed to fix React error */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 1, delay: 0.8 }}
-          className="h-96 rounded-2xl overflow-hidden bg-gray-800/30 backdrop-blur-sm border border-gray-700/30"
+          className="h-96 rounded-2xl overflow-hidden bg-gray-800/30 backdrop-blur-sm border border-gray-700/30 flex items-center justify-center"
         >
-          <Canvas camera={{ position: [0, 0, 5] }}>
-            <Suspense fallback={null}>
-              <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
-              <ambientLight intensity={0.5} />
-              <directionalLight position={[5, 5, 5]} intensity={1} />
-              
-              <Center>
-                <Text3D
-                  font="/fonts/helvetiker_regular.typeface.json"
-                  size={0.5}
-                  height={0.1}
-                  curveSegments={12}
-                >
-                  SKILLS
-                  <meshStandardMaterial attach="material" color="#00ffff" />
-                </Text3D>
-              </Center>
-            </Suspense>
-          </Canvas>
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-cyan-400 mb-4">3D Skills Visualization</h3>
+            <p className="text-gray-400">Coming Soon - Interactive 3D Experience</p>
+          </div>
         </motion.div>
       </div>
     </section>
