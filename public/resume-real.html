@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAJRA - Resume</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            background: #0f172a !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        @page {
+            margin: 0;
+            size: A4;
+            background: #0f172a;
+        }
+          @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            body {
+                background: #0f172a !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .container {
+                background: #0f172a !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+        }body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #e2e8f0;
+            background: #0f172a !important;
+            font-size: 14px;
+            margin: 0 !important;
+            padding: 0 !important;
+            min-height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
+        }
+          .container {
+            max-width: 100%;
+            margin: 0;
+            background: #0f172a !important;
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        /* Header Section */
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid #00bcd4;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,188,212,0.1) 0%, rgba(59,130,246,0.1) 100%);
+            z-index: 1;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+          .name {
+            font-size: 3.2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #00bcd4 0%, #3b82f6 50%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .title {
+            font-size: 1.3em;
+            font-weight: 400;
+            opacity: 0.95;
+            margin-bottom: 20px;
+            color: #94a3b8;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+          /* Main Content */
+        .content {
+            padding: 0;
+            background: #1e293b;
+        }
+        
+        .section {
+            padding: 35px 40px;
+            border-bottom: 1px solid #334155;
+            background: #1e293b;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 25px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #00bcd4;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(135deg, #00bcd4 0%, #3b82f6 100%);
+        }
+          /* Education & Timeline Items */
+        .timeline-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #334155;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 188, 212, 0.2);
+        }
+        
+        .timeline-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .item-title {
+            font-weight: 600;
+            color: #f1f5f9;
+            font-size: 1.1em;
+        }
+        
+        .item-date {
+            font-weight: 500;
+            color: #00bcd4;
+            background: rgba(0,188,212,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            border: 1px solid rgba(0, 188, 212, 0.3);
+        }
+        
+        .item-company {
+            color: #94a3b8;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .item-description {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+        
+        .item-description ul {
+            margin-top: 8px;
+            padding-left: 0;
+        }
+        
+        .item-description li {
+            list-style: none;
+            margin-bottom: 4px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .item-description li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: #00bcd4;
+            font-size: 0.8em;
+        }
+          /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+        
+        .skill-category {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 188, 212, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .skill-category h4 {
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 6px 0;
+        }
+        
+        .skill-name {
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+        
+        .skill-level {
+            font-weight: 600;
+            color: #00bcd4;
+            font-size: 0.9em;
+        }
+          /* Projects */
+        .project-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 188, 212, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .project-title {
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .project-tech {
+            color: #00bcd4;
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        
+        .project-description {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+        
+        .project-links {
+            margin-top: 10px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .project-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9em;
+            transition: color 0.3s ease;
+        }
+        
+        .project-link:hover {
+            color: #00bcd4;
+        }
+          /* Achievements */
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .achievement-card {
+            background: rgba(30, 41, 59, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 188, 212, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .achievement-card h4 {
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 10px;
+        }
+        
+        .achievement-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .achievement-card li {
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+            color: #cbd5e1;
+        }
+        
+        .achievement-card li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: #00bcd4;
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            text-align: center;
+            padding: 25px;
+            font-size: 0.9em;
+            border-top: 2px solid #00bcd4;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body { font-size: 12px; }
+            .container { box-shadow: none; }
+            .section { padding: 25px 30px; }
+            .header { padding: 30px; }
+            .name { font-size: 2.8em; }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header { padding: 30px 20px; }
+            .section { padding: 25px 20px; }
+            .contact-info { flex-direction: column; gap: 15px; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .achievement-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1 class="name">VAJRA</h1>
+                <p class="title">Computer Science Student & Web Developer</p>                <div class="contact-info">
+                    <div class="contact-item">✉️ vajra172007@gmail.com</div>
+                    <div class="contact-item">📱 +91 9019414315</div>
+                    <div class="contact-item">📍 Coimbatore, IN</div>
+                    <div class="contact-item">💻 github.com/vajra172007</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- About Section -->
+            <div class="section">
+                <h2 class="section-title">🎯 About Me</h2>
+                <p class="item-description">
+                    I'm a Computer Science student at Kumaraguru College of Technology with a passion for web development. 
+                    Currently on a self-learning journey, building skills in modern web technologies to create engaging experiences. 
+                    Computer Science enthusiast who enjoys building interactive web applications and exploring new technologies.
+                </p>
+            </div>
+
+            <!-- Education -->
+            <div class="section">
+                <h2 class="section-title">🎓 Education</h2>
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <span class="item-title">Bachelor of Engineering - Computer Science</span>
+                        <span class="item-date">June 2024 - Present</span>
+                    </div>
+                    <p class="item-company">Kumaraguru College of Technology, Coimbatore</p>
+                    <p class="item-description">
+                        Currently pursuing BE in Computer Science with focus on modern software development, 
+                        data structures, algorithms, and web technologies.
+                    </p>
+                </div>
+            </div>            <!-- Skills -->
+            <div class="section" style="margin-bottom: 100px;">
+                <h2 class="section-title">💻 Technical Skills</h2><div class="skills-grid" style="row-gap: 20px;">                    <div class="skill-category">
+                        <h4>Web Development</h4>
+                        <div class="skill-item">
+                            <span class="skill-name">HTML</span>
+                            <span class="skill-level">85%</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">CSS</span>
+                            <span class="skill-level">75%</span>
+                        </div>                        <div class="skill-item" style="padding-top: 5px; page-break-inside: avoid;">
+                            <span class="skill-name">JavaScript</span>
+                            <span class="skill-level">70%</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">React</span>
+                            <span class="skill-level">60%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h4>Programming Languages</h4>
+                        <div class="skill-item">
+                            <span class="skill-name">Python</span>
+                            <span class="skill-level">80%</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">C Language</span>
+                            <span class="skill-level">75%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h4>Tools & Technologies</h4>
+                        <div class="skill-item">
+                            <span class="skill-name">Git/GitHub</span>
+                            <span class="skill-level">75%</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">VS Code</span>
+                            <span class="skill-level">85%</span>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Figma</span>
+                            <span class="skill-level">60%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>            <!-- Projects -->
+            <div class="section" style="page-break-before: always;">
+                <h2 class="section-title">🚀 Featured Projects</h2>
+                
+                <div class="project-item">
+                    <div class="project-title">Weather Web App</div>
+                    <div class="project-tech">HTML, CSS, JavaScript</div>
+                    <div class="project-description">
+                        Real-time weather application that fetches weather data based on user input and displays temperature, 
+                        weather conditions, and humidity details in a clean and user-friendly interface. 
+                        Improved skills in API integration, responsive design, and JavaScript DOM manipulation.
+                    </div>
+                    <div class="project-links">
+                        <a href="https://musiiwheather.netlify.app/" class="project-link">🔗 Live Demo</a>
+                        <a href="https://github.com/vajra172007" class="project-link">📂 GitHub</a>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-title">Age Calculator Web App</div>
+                    <div class="project-tech">HTML, CSS, JavaScript</div>
+                    <div class="project-description">
+                        Interactive web application that allows users to input their date of birth and instantly calculates 
+                        their exact age in years, months, and days. Enhanced skills in date manipulation, form handling, 
+                        and responsive UI design.
+                    </div>
+                    <div class="project-links">
+                        <a href="https://v-meenu-a.netlify.app/" class="project-link">🔗 Live Demo</a>
+                        <a href="https://github.com/vajra172007" class="project-link">📂 GitHub</a>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-title">To-Do List Web App</div>
+                    <div class="project-tech">HTML, CSS, JavaScript</div>
+                    <div class="project-description">
+                        Simple yet powerful task management application with clean interface. Users can create, edit, 
+                        and delete tasks with local storage for persistent data. Focused on smooth user experience 
+                        and intuitive design.
+                    </div>
+                    <div class="project-links">
+                        <a href="https://vajra-to-do.netlify.app/" class="project-link">🔗 Live Demo</a>
+                        <a href="https://github.com/vajra172007" class="project-link">📂 GitHub</a>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-title">Expense Tracker Web App</div>
+                    <div class="project-tech">HTML, CSS, JavaScript</div>
+                    <div class="project-description">
+                        Budget management application that helps users track expenses effectively. Features include 
+                        adding, editing, and deleting expenses, categorizing them, and viewing spending patterns over time.
+                    </div>
+                    <div class="project-links">
+                        <a href="https://67fe82be055d6311a7424156--heroic-kashata-483410.netlify.app/" class="project-link">🔗 Live Demo</a>
+                        <a href="https://github.com/vajra172007" class="project-link">📂 GitHub</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Journey -->
+            <div class="section">
+                <h2 class="section-title">📈 Learning Journey</h2>
+                
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <span class="item-title">React & Next.js</span>
+                        <span class="item-date">June 2025</span>
+                    </div>
+                    <p class="item-company">Online Courses & Self-Study</p>
+                    <p class="item-description">Advanced to modern frontend frameworks for building fast, scalable applications.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <span class="item-title">JavaScript</span>
+                        <span class="item-date">June 2025</span>
+                    </div>
+                    <p class="item-company">Self-Study</p>
+                    <p class="item-description">Built interactive web experiences with modern JavaScript and ES6+ features.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <span class="item-title">Python and CSS</span>
+                        <span class="item-date">May 2025</span>
+                    </div>
+                    <p class="item-company">Self-Study</p>
+                    <p class="item-description">Developed Python skills for automation and CSS for responsive web interfaces.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <span class="item-title">HTML</span>
+                        <span class="item-date">April 2025</span>
+                    </div>
+                    <p class="item-company">Self-Study</p>
+                    <p class="item-description">Mastered HTML semantics and accessibility best practices for web development.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="item-header">
+                        <span class="item-title">C Programming</span>
+                        <span class="item-date">January 2025</span>
+                    </div>
+                    <p class="item-company">College Course & Self-Study</p>
+                    <p class="item-description">Learned fundamental programming concepts, memory management, and data structures.</p>
+                </div>
+            </div>
+
+            <!-- Achievements & Interests -->
+            <div class="section">
+                <h2 class="section-title">🌟 Achievements & Interests</h2>
+                <div class="achievement-grid">
+                    <div class="achievement-card">
+                        <h4>Technical Achievements</h4>
+                        <ul>
+                            <li>Successfully completed 4+ web development projects with live deployments</li>
+                            <li>Self-taught multiple programming languages and frameworks</li>
+                            <li>Built responsive, interactive websites with modern design principles</li>
+                            <li>Integrated real-time APIs and implemented complex UI interactions</li>
+                            <li>Developed portfolio showcasing progressive skill development</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <h4>Personal Interests</h4>
+                        <ul>
+                            <li>Passionate about emerging web technologies and frameworks</li>
+                            <li>Active in online developer communities and learning platforms</li>
+                            <li>Interest in UI/UX design and creating engaging user experiences</li>
+                            <li>Continuous learning and staying updated with industry trends</li>
+                            <li>Building practical projects to solve real-world problems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Thank you for considering my application. I'm excited about the opportunity to contribute and grow in the field of web development!</p>
+        </div>
+    </div>
+</body>
+</html>

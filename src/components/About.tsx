@@ -4,44 +4,45 @@ import { useInView } from 'react-intersection-observer';
 
 const About = () => {
   const { ref, inView } = useInView({
-    threshold: 0.3,
-    triggerOnce: true
+    threshold: 0.1, // Reduced threshold for better mobile performance
+    triggerOnce: true,
+    rootMargin: '50px' // Trigger animations earlier on mobile
   });  const timelineItems = [
     {
       year: '2024 June',
       title: 'BE. Computer Science',
-      company: 'Kumaraguru College of Science and Technology',
-      description: 'Started pursuing Bachelor of Engineering in Computer Science, focusing on core computer science fundamentals and modern software development practices.'
+      company: 'Kumaraguru College of Technology',
+      description: 'Started pursuing Bachelor of Engineering in Computer Science with focus on modern software development.'
     },
     {
-      year: '2025 January',
+      year: '2025 Jan',
       title: 'C Language',
-      company: 'Resources: College Course, YouTube, ChatGPT',
-      description: 'Learned fundamental programming concepts through C language, including memory management, data structures, and algorithmic thinking.'
+      company: 'College Course & Self-Study',
+      description: 'Learned fundamental programming concepts, memory management, and data structures.'
     },
     {
-      year: '2025 April',
+      year: '2025 Apr',
       title: 'HTML',
-      company: 'Resources: YouTube, ChatGPT',
-      description: 'Mastered the fundamentals of HTML, creating semantic markup structures and learning about accessibility best practices for modern web development.'
+      company: 'Self-Study',
+      description: 'Mastered HTML semantics and accessibility best practices for web development.'
     },
     {
       year: '2025 May',
       title: 'Python and CSS',
-      company: 'Resources: YouTube, ChatGPT',
-      description: 'Developed skills in Python programming for automation and data analysis while simultaneously learning CSS for creating responsive and visually appealing web interfaces.'
+      company: 'Self-Study',
+      description: 'Developed Python skills for automation and CSS for responsive web interfaces.'
     },
     {
       year: '2025 June',
       title: 'JavaScript',
-      company: 'Resources: YouTube, ChatGPT',
-      description: 'Built interactive web experiences using JavaScript, focusing on DOM manipulation, event handling, and modern ES6+ features to create dynamic web applications.'
+      company: 'Self-Study',
+      description: 'Built interactive web experiences with modern JavaScript and ES6+ features.'
     },
     {
       year: '2025 June',
       title: 'React & Next.js',
-      company: 'Resources: YouTube, ChatGPT, Udemy',
-      description: 'Advanced to modern frontend frameworks, building component-based UIs with React and server-side rendering with Next.js to develop fast, SEO-friendly web applications.'
+      company: 'Online Courses',
+      description: 'Advanced to modern frontend frameworks for building fast, scalable applications.'
     }
   ];
   const funFacts = [
@@ -51,48 +52,47 @@ const About = () => {
     'Building portfolio projects to showcase skills 🛠️',
     'Passionate about modern web development frameworks ⚛️'
   ];
-
   return (
-    <section id="about" ref={ref} className="py-20 px-4 sm:px-6 lg:px-8 relative">
+    <section id="about" ref={ref} className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-900/5 to-transparent" />
       
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="text-center mb-12 sm:mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
             About Me
-          </h2>          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            I'm a Computer Science student at Kumaraguru College of Science and Technology
+          </h2>
+          <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-2">
+            I'm a Computer Science student at Kumaraguru College of Technology
             with a passion for web development. Currently on a self-learning journey,
-            I'm building my skills in HTML, CSS, JavaScript, Python and modern frameworks
-            to create engaging and responsive web experiences.
+            building skills in modern web technologies to create engaging experiences.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Personal Info & Fun Facts */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50">
-              <h3 className="text-2xl font-bold mb-6 text-cyan-400">Quick Facts</h3>
-              <div className="space-y-4">
+            <div className="bg-gray-800/40 rounded-2xl p-6 sm:p-8 border border-gray-700/50">
+              <h3 className="text-xl sm:text-2xl font-bold mb-6 text-cyan-400">Quick Facts</h3>
+              <div className="space-y-3 sm:space-y-4">
                 {funFacts.map((fact, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={inView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+                    initial={{ opacity: 0 }}
+                    animate={inView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
                     className="flex items-center space-x-3"
                   >
                     <div className="w-2 h-2 bg-cyan-400 rounded-full flex-shrink-0" />
-                    <span className="text-gray-300">{fact}</span>
+                    <span className="text-gray-300 text-sm sm:text-base">{fact}</span>
                   </motion.div>
                 ))}
               </div>
@@ -101,27 +101,31 @@ const About = () => {
 
           {/* Timeline */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
-            <h3 className="text-2xl font-bold mb-8 text-cyan-400">My Learning Journey</h3>
-            <div className="space-y-8">
+            <h3 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-cyan-400">My Learning Journey</h3>
+            <div className="space-y-6 sm:space-y-8">
               {timelineItems.map((item, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                  className="relative pl-8 border-l-2 border-cyan-400/30"
+                  transition={{ 
+                    duration: 0.4, 
+                    delay: 0.5 + index * 0.03, // Reduced stagger delay
+                    ease: "easeOut" 
+                  }}
+                  className="relative pl-6 sm:pl-8 border-l-2 border-cyan-400/30"
                 >
                   <div className="absolute -left-2 top-0 w-4 h-4 bg-cyan-400 rounded-full" />
-                  <div className="bg-gray-800/30 backdrop-blur-sm rounded-lg p-6 border border-gray-700/30">
+                  <div className="bg-gray-800/20 rounded-lg p-4 sm:p-6 border border-gray-700/30">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-semibold text-cyan-400">{item.year}</span>
+                      <span className="text-xs sm:text-sm font-semibold text-cyan-400">{item.year}</span>
                     </div>
-                    <h4 className="text-lg font-bold text-white mb-1">{item.title}</h4>
-                    <p className="text-gray-400 mb-2">{item.company}</p>
+                    <h4 className="text-base sm:text-lg font-bold text-white mb-1">{item.title}</h4>
+                    <p className="text-gray-400 mb-2 text-sm sm:text-base">{item.company}</p>
                     <p className="text-gray-300 text-sm">{item.description}</p>
                   </div>
                 </motion.div>

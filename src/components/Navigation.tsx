@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { portfolioEvents } from '../lib/analytics';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,9 +14,12 @@ const Navigation = () => {
     { name: 'Projects', href: '#projects' },
     { name: 'Skills', href: '#skills' },
     { name: 'Contact', href: '#contact' },
-  ];
-  const scrollToSection = (href: string) => {
+  ];  const scrollToSection = (href: string) => {
     const elementId = href.slice(1); // Remove the # character
+    
+    // Track navigation event in Google Analytics
+    portfolioEvents.navigateToSection(elementId);
+    
     const element = document.getElementById(elementId);
     
     if (element) {

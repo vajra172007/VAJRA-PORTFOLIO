@@ -26,8 +26,7 @@ const Index = () => {
         <Hero />
         <About />
         <Projects />
-        <Skills />
-        <Contact />
+        <Skills />        <Contact />
       </motion.main>
     </div>
   );
