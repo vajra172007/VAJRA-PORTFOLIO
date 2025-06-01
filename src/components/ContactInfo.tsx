@@ -18,19 +18,19 @@ const ContactInfo = ({ inView }: ContactInfoProps) => {
     {
       icon: Mail,
       label: 'Email',
-      value: 'alex.johnson@email.com',
-      href: 'mailto:alex.johnson@email.com'
+      value: 'vajra172007@gmail.com',
+      href: 'mailto:vajra172007@gmail.com'
     },
     {
       icon: Phone,
       label: 'Phone',
-      value: '+1 (555) 123-4567',
-      href: 'tel:+15551234567'
+      value: '+91 9019414315',
+      href: 'tel:+91 9019414315'
     },
     {
       icon: MapPin,
       label: 'Location',
-      value: 'San Francisco, CA',
+      value: 'Coimbatore, IN',
       href: null
     }
   ];

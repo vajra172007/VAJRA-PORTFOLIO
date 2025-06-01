@@ -11,46 +11,44 @@ const Projects = () => {
   });
 
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-
   const projects = [
     {
       id: 1,
-      title: 'E-Commerce Platform',
-      description: 'A modern, responsive e-commerce platform built with React, Node.js, and MongoDB. Features include real-time inventory, payment processing, and admin dashboard.',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
+      title: 'WHEATHER WEB-APP',
+      description: 'The app fetches real-time weather data based on user input and displays temperature, weather conditions, and humidity details in a clean and user-friendly interface. This project really helped me improve my skills in API integration, responsive design, and JavaScript DOM manipulation.',
+      image: '/Wheather Web-App.png',
+      technologies: ['HTML', 'CSS', 'JAVA-SCRIPT'],
       github: 'https://github.com',
-      live: 'https://example.com',
+      live: 'https://musiiwheather.netlify.app/',
       featured: true
     },
     {
       id: 2,
-      title: 'AI-Powered Chat App',
-      description: 'Real-time messaging application with AI-powered chatbots, file sharing, and video calls. Built with React, Socket.io, and OpenAI API.',
-      image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71',
-      technologies: ['React', 'Socket.io', 'OpenAI', 'WebRTC'],
+      title: 'Age Calculator Web-App',
+      description: 'The app allows users to input their date of birth and instantly calculates their exact age in years, months, and days. This project helped me get better at date manipulation, form handling, and responsive UI design. Loved seeing how small ideas like this can turn into interactive, useful tools! 🔥',
+      image: '/Age Calculator Web-App.png',
+      technologies: ['HTML', 'CSS', 'JAVA-SCRIPT'],
       github: 'https://github.com',
-      live: 'https://example.com',
+      live: 'https://v-meenu-a.netlify.app/',
       featured: true
     },
     {
       id: 3,
-      title: 'Data Visualization Dashboard',
-      description: 'Interactive dashboard for complex data visualization with real-time updates, multiple chart types, and export functionality.',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71',
-      technologies: ['React', 'D3.js', 'Python', 'FastAPI'],
+      title: 'To-Do List Web App 📝',
+      description: 'A simple yet powerful to-do list application that allows users to create, edit, and delete tasks with a clean and intuitive interface. This app lets users add and track their daily tasks in a smooth, clutter-free interface and local storage for persistent data.',
+      image: '/To-Do List App.png',
+      technologies: ['HTML', 'CSS', 'JavaScript'],
       github: 'https://github.com',
-      live: 'https://example.com',
+      live: 'https://vajra-to-do.netlify.app/',
       featured: false
-    },
-    {
+    },    {
       id: 4,
-      title: 'Mobile Fitness App',
-      description: 'Cross-platform mobile app for fitness tracking with workout plans, progress monitoring, and social features.',
-      image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b',
-      technologies: ['React Native', 'Firebase', 'Redux', 'Expo'],
+      title: 'Expense Tracker Web App 💰',
+      description: 'A web application that helps users track their expenses and manage their budget effectively. Users can add, edit, and delete expenses, categorize them, and view their spending patterns over time.',
+      image: '/Expense Tracker.png',
+      technologies: ['HTML', 'CSS', 'JavaScript'],
       github: 'https://github.com',
-      live: 'https://example.com',
+      live: 'https://67fe82be055d6311a7424156--heroic-kashata-483410.netlify.app/',
       featured: false
     }
   ];
@@ -71,7 +69,6 @@ const Projects = () => {
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             A collection of projects that showcase my skills in modern web development, 
-            from full-stack applications to mobile solutions.
           </p>
         </motion.div>
 
@@ -85,52 +82,64 @@ const Projects = () => {
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
               className="relative group cursor-pointer"
-            >
-              <div className="relative overflow-hidden rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 transition-transform duration-300 hover:scale-[1.02]">
+            >              <div className="relative overflow-hidden rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 transition-all duration-300 hover:scale-[1.02] hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/10">
                 <div className="relative">
-                  <div className="aspect-video overflow-hidden">
+                  <div className="aspect-video overflow-hidden bg-gray-900/50">
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-contain transition-all duration-500 group-hover:scale-105 bg-gradient-to-br from-gray-900 to-gray-800"
+                      style={{
+                        imageRendering: 'crisp-edges',
+                        filter: 'brightness(0.9) contrast(1.1) saturate(1.1)',
+                      }}
+                      onLoad={(e) => {
+                        const img = e.target as HTMLImageElement;
+                        img.style.filter = 'brightness(1) contrast(1.1) saturate(1.1)';
+                      }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent" />
-                  </div>
-
-                  {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-xl" />
+                  </div>                  {/* Hover overlay */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{
                       opacity: hoveredProject === project.id ? 1 : 0,
                     }}
                     transition={{ duration: 0.3 }}
-                    className="absolute inset-0 bg-gray-900/90 backdrop-blur-sm flex items-center justify-center z-10"
+                    className="absolute inset-0 bg-gray-900/95 backdrop-blur-md flex items-center justify-center z-10 rounded-xl"
                   >
-                    <div className="text-center p-8 max-w-sm">
-                      <h3 className="text-2xl font-bold text-white mb-4">{project.title}</h3>
-                      <p className="text-gray-300 mb-6 text-sm">{project.description}</p>
-                      <div className="flex justify-center space-x-4">
-                        <motion.a
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-3 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors"
-                        >
-                          <Github size={20} />
-                        </motion.a>
-                        <motion.a
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          href={project.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-3 bg-cyan-600 rounded-full hover:bg-cyan-500 transition-colors"
-                        >
-                          <ExternalLink size={20} />
-                        </motion.a>
-                      </div>
+                    <div className="text-center p-6 max-w-sm">
+                      <motion.div
+                        initial={{ y: 20 }}
+                        animate={{ y: hoveredProject === project.id ? 0 : 20 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                      >
+                        <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
+                        <p className="text-gray-300 mb-4 text-sm leading-relaxed">{project.description}</p>
+                        <div className="flex justify-center space-x-3">
+                          <motion.a
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 bg-gray-700/80 rounded-full hover:bg-gray-600 transition-all duration-200 shadow-lg"
+                          >
+                            <Github size={18} />
+                          </motion.a>
+                          <motion.a
+                            whileHover={{ scale: 1.1, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 bg-cyan-600/90 rounded-full hover:bg-cyan-500 transition-all duration-200 shadow-lg shadow-cyan-500/20"
+                          >
+                            <ExternalLink size={18} />
+                          </motion.a>
+                        </div>
+                      </motion.div>
                     </div>
                   </motion.div>
                 </div>
@@ -138,12 +147,14 @@ const Projects = () => {
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
                   <p className="text-gray-400 mb-4 line-clamp-2">{project.description}</p>
-                  
-                  <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1 xs:gap-1.5 sm:gap-2">
                     {project.technologies.map((tech, techIndex) => (
                       <span
                         key={techIndex}
-                        className="px-3 py-1 text-xs font-medium bg-gray-700/50 text-cyan-400 rounded-full border border-gray-600/50"
+                        className="px-1.5 xs:px-2 sm:px-2.5 md:px-3 py-0.5 xs:py-0.5 sm:py-1 text-2xs xs:text-xs sm:text-xs md:text-xs font-medium bg-gray-700/50 text-cyan-400 rounded-full border border-gray-600/50 whitespace-nowrap min-w-0 flex-shrink-0"
+                        style={{
+                          fontSize: 'clamp(0.5rem, 2.5vw, 0.75rem)'
+                        }}
                       >
                         {tech}
                       </span>

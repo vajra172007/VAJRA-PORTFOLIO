@@ -6,40 +6,50 @@ const About = () => {
   const { ref, inView } = useInView({
     threshold: 0.3,
     triggerOnce: true
-  });
-
-  const timelineItems = [
+  });  const timelineItems = [
     {
-      year: '2024',
-      title: 'Senior Full-Stack Developer',
-      company: 'Tech Innovations Inc.',
-      description: 'Leading development of scalable web applications using React, Node.js, and AWS.'
+      year: '2024 June',
+      title: 'BE. Computer Science',
+      company: 'Kumaraguru College of Science and Technology',
+      description: 'Started pursuing Bachelor of Engineering in Computer Science, focusing on core computer science fundamentals and modern software development practices.'
     },
     {
-      year: '2022',
-      title: 'Frontend Developer',
-      company: 'Digital Solutions Ltd.',
-      description: 'Specialized in creating responsive, accessible user interfaces with modern frameworks.'
+      year: '2025 January',
+      title: 'C Language',
+      company: 'Resources: College Course, YouTube, ChatGPT',
+      description: 'Learned fundamental programming concepts through C language, including memory management, data structures, and algorithmic thinking.'
     },
     {
-      year: '2020',
-      title: 'Junior Developer',
-      company: 'StartUp Labs',
-      description: 'Built foundations in web development, working with diverse technologies and methodologies.'
+      year: '2025 April',
+      title: 'HTML',
+      company: 'Resources: YouTube, ChatGPT',
+      description: 'Mastered the fundamentals of HTML, creating semantic markup structures and learning about accessibility best practices for modern web development.'
     },
     {
-      year: '2019',
-      title: 'Computer Science Graduate',
-      company: 'University of Technology',
-      description: 'Graduated with honors, focusing on software engineering and human-computer interaction.'
+      year: '2025 May',
+      title: 'Python and CSS',
+      company: 'Resources: YouTube, ChatGPT',
+      description: 'Developed skills in Python programming for automation and data analysis while simultaneously learning CSS for creating responsive and visually appealing web interfaces.'
+    },
+    {
+      year: '2025 June',
+      title: 'JavaScript',
+      company: 'Resources: YouTube, ChatGPT',
+      description: 'Built interactive web experiences using JavaScript, focusing on DOM manipulation, event handling, and modern ES6+ features to create dynamic web applications.'
+    },
+    {
+      year: '2025 June',
+      title: 'React & Next.js',
+      company: 'Resources: YouTube, ChatGPT, Udemy',
+      description: 'Advanced to modern frontend frameworks, building component-based UIs with React and server-side rendering with Next.js to develop fast, SEO-friendly web applications.'
     }
   ];
-
   const funFacts = [
-    'Coffee enthusiast ☕ - 4+ cups daily',
-    'Love hiking and nature photography 🏔️',
-    'Speak 3 languages fluently 🌍',
-    'Open source contributor with 50+ repositories'
+    'Computer Science enthusiast 💻',
+    'Self-taught web developer 🌐',
+    'Learning multiple technologies simultaneously 🚀',
+    'Building portfolio projects to showcase skills 🛠️',
+    'Passionate about modern web development frameworks ⚛️'
   ];
 
   return (
@@ -55,11 +65,11 @@ const About = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
             About Me
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            I'm a passionate developer who loves turning complex problems into simple, beautiful designs. 
-            With over 5 years of experience in the industry, I specialize in creating digital experiences 
-            that are not only functional but also delightful to use.
+          </h2>          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            I'm a Computer Science student at Kumaraguru College of Science and Technology
+            with a passion for web development. Currently on a self-learning journey,
+            I'm building my skills in HTML, CSS, JavaScript, Python and modern frameworks
+            to create engaging and responsive web experiences.
           </p>
         </motion.div>
 
@@ -95,7 +105,7 @@ const About = () => {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <h3 className="text-2xl font-bold mb-8 text-cyan-400">My Journey</h3>
+            <h3 className="text-2xl font-bold mb-8 text-cyan-400">My Learning Journey</h3>
             <div className="space-y-8">
               {timelineItems.map((item, index) => (
                 <motion.div

@@ -10,10 +10,10 @@ interface SocialLink {
 
 const SocialLinks = () => {
   const socialLinks: SocialLink[] = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
+    { icon: Github, href: 'https://github.com/vajra172007', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/vajra-s-108068333', label: 'LinkedIn' },
     { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' }
+    { icon: Instagram, href: 'https://www.instagram.com/vajra_shivam/?hl=en', label: 'Instagram' }
   ];
 
   return (

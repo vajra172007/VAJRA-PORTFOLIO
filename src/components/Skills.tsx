@@ -6,36 +6,31 @@ const Skills = () => {
   const { ref, inView } = useInView({
     threshold: 0.3,
     triggerOnce: true
-  });
-
-  const skillCategories = [
+  });  const skillCategories = [
     {
-      title: 'Frontend',
+      title: 'Web Development',
       skills: [
-        { name: 'React/Next.js', level: 95 },
-        { name: 'TypeScript', level: 90 },
-        { name: 'Tailwind CSS', level: 92 },
-        { name: 'Framer Motion', level: 88 }
+        { name: 'HTML', level: 85 },
+        { name: 'CSS', level: 75 },
+        { name: 'JavaScript', level: 70 },
+        { name: 'React', level: 60 }
       ],
       color: 'cyan'
-    },
-    {
-      title: 'Backend',
+    },    {
+      title: 'Programming Languages',
       skills: [
-        { name: 'Node.js', level: 87 },
-        { name: 'Python', level: 85 },
-        { name: 'PostgreSQL', level: 82 },
-        { name: 'MongoDB', level: 80 }
+        { name: 'Python', level: 80 },
+        { name: 'C Language', level: 75 }
       ],
       color: 'blue'
     },
     {
-      title: 'Tools & Others',
+      title: 'Tools & Technologies',
       skills: [
-        { name: 'AWS/Cloud', level: 83 },
-        { name: 'Docker', level: 78 },
-        { name: 'Git/GitHub', level: 92 },
-        { name: 'Figma', level: 85 }
+        { name: 'Git/GitHub', level: 75 },
+        { name: 'VS Code', level: 85 },
+        { name: 'Figma', level: 60 },
+        { name: 'ChatGPT', level: 90 }
       ],
       color: 'purple'
     }
@@ -78,9 +73,8 @@ const Skills = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
             Skills & Expertise
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            A comprehensive overview of my technical skills and proficiency levels across different technologies and tools.
+          </h2>          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            As a computer science student, I'm constantly learning and improving my skills in these areas. Here's my current progress on my learning journey.
           </p>
         </motion.div>
 
@@ -119,18 +113,27 @@ const Skills = () => {
               </motion.div>
             );
           })}
-        </div>
-
-        {/* Placeholder for 3D Visualization - temporarily removed to fix React error */}
+        </div>        {/* Currently Learning Section */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 1, delay: 0.8 }}
-          className="h-96 rounded-2xl overflow-hidden bg-gray-800/30 backdrop-blur-sm border border-gray-700/30 flex items-center justify-center"
+          className="h-auto rounded-2xl overflow-hidden bg-gray-800/30 backdrop-blur-sm border border-gray-700/30 flex items-center justify-center p-8"
         >
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-cyan-400 mb-4">3D Skills Visualization</h3>
-            <p className="text-gray-400">Coming Soon - Interactive 3D Experience</p>
+            <h3 className="text-2xl font-bold text-cyan-400 mb-6">Currently Learning</h3>            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                { name: 'Next.js', icon: '⚛️' },
+                { name: 'Tailwind CSS', icon: '🎨' },
+                { name: 'TypeScript', icon: '📘' }
+              ].map((item) => (
+                <div key={item.name} className="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50 hover:border-cyan-400/50 transition-all">
+                  <div className="text-3xl mb-2">{item.icon}</div>
+                  <div className="font-medium text-white">{item.name}</div>
+                </div>
+              ))}
+            </div>
+            <p className="text-gray-400 mt-6">Always expanding my knowledge in computer science and web development</p>
           </div>
         </motion.div>
       </div>

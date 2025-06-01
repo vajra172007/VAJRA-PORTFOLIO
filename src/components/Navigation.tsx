@@ -14,29 +14,55 @@ const Navigation = () => {
     { name: 'Skills', href: '#skills' },
     { name: 'Contact', href: '#contact' },
   ];
-
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
+    const elementId = href.slice(1); // Remove the # character
+    const element = document.getElementById(elementId);
+    
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      // Adding a small timeout to ensure smooth scrolling
+      setTimeout(() => {
+        const offset = 80; // Account for fixed navbar height
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }, 100);
     }
     setIsOpen(false);
   };
-
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['hero', 'about', 'projects', 'skills', 'contact'];
-      const current = sections.find(section => {
+      
+      // Find the section that is currently most visible in viewport
+      let maxVisibleSection = '';
+      let maxVisibleHeight = 0;
+      
+      sections.forEach(section => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+          const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+          
+          // Only consider elements that are actually visible in the viewport
+          if (visibleHeight > 0 && visibleHeight > maxVisibleHeight) {
+            maxVisibleHeight = visibleHeight;
+            maxVisibleSection = section;
+          }
         }
-        return false;
       });
-      if (current) setActiveSection(current);
+      
+      if (maxVisibleSection) {
+        setActiveSection(maxVisibleSection);
+      }
     };
 
+    // Initial check
+    handleScroll();
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -63,8 +89,7 @@ const Navigation = () => {
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`relative px-4 py-2 text-sm font-medium transition-colors ${
+                whileTap={{ scale: 0.95 }}              className={`relative px-4 py-2 text-sm font-medium transition-colors ${
                   activeSection === item.href.slice(1)
                     ? 'text-cyan-400'
                     : 'text-gray-300 hover:text-white'
