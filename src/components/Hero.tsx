@@ -2,15 +2,23 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import AudioPlayer from './AudioPlayer';
 import SoundWaveRipples from './SoundWaveRipples.new';
+import { portfolioEvents } from '../lib/analytics';
 
 const Hero = () => {
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [showClickEffect, setShowClickEffect] = useState<boolean>(false);
   const [ripples, setRipples] = useState<Array<{ id: number; timestamp: number }>>([]);
-
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    const newPlayingState = !isPlaying;
+    setIsPlaying(newPlayingState);
+    
+    // Track audio interaction in Google Analytics
+    if (newPlayingState) {
+      portfolioEvents.audioPlay('VAJRA Theme');
+    } else {
+      portfolioEvents.audioPause('VAJRA Theme');
+    }
     
     // Trigger click effect
     setShowClickEffect(true);
@@ -19,9 +27,7 @@ const Hero = () => {
     // Add ripple effect
     const newRipple = { id: Date.now(), timestamp: Date.now() };
     setRipples(prev => [...prev, newRipple]);
-  };
-
-  // Clean up old ripples
+  };// Clean up old ripples
   useEffect(() => {
     const interval = setInterval(() => {
       setRipples(prev => prev.filter(ripple => Date.now() - ripple.timestamp < 2000));
@@ -29,8 +35,10 @@ const Hero = () => {
     
     return () => clearInterval(interval);
   }, []);
-
   const scrollToContact = () => {
+    // Track navigation to contact section
+    portfolioEvents.navigateToSection('contact');
+    
     const contactSection = document.getElementById('contact');
     if (contactSection) {
       const offset = 80; // Account for fixed navbar height
@@ -42,7 +50,7 @@ const Hero = () => {
         behavior: 'smooth'
       });
     }
-  }; 
+  };
   
   return (
     <section id="hero" className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden pt-16 sm:pt-20 md:pt-24 lg:pt-28 no-horizontal-scroll">
@@ -92,14 +100,14 @@ const Hero = () => {
                   className="px-4 xs:px-6 sm:px-8 py-2.5 xs:py-3 sm:py-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-full transition-all duration-300 hover:from-cyan-400 hover:to-blue-500 shadow-lg text-xs xs:text-sm sm:text-base whitespace-nowrap"
                 >
                   Let's Work Together
-                </motion.button>
-              
-                <motion.a
+                </motion.button>                <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  href="/resume.pdf"
+                  href="/VAJRA_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
+                  download="VAJRA_Resume.pdf"
+                  onClick={() => portfolioEvents.resumeDownload()}
                   className="px-4 xs:px-6 sm:px-8 py-2.5 xs:py-3 sm:py-4 border-2 border-cyan-400 text-cyan-400 font-semibold rounded-full transition-all duration-300 hover:bg-cyan-400 hover:text-gray-900 text-xs xs:text-sm sm:text-base whitespace-nowrap"
                 >
                   Download Resume
@@ -188,9 +196,8 @@ const Hero = () => {
                     maxHeight: '100%'
                   }}
                 />
-              
                 <motion.div 
-                  className="absolute inset-1 rounded-full bg-gray-900/95 backdrop-blur-sm flex items-center justify-center z-20"
+                  className="absolute inset-1 rounded-full bg-gray-900/95 backdrop-blur-sm flex flex-col items-center justify-center z-20"
                   animate={{
                     boxShadow: isPlaying 
                       ? [
@@ -205,8 +212,7 @@ const Hero = () => {
                     repeat: isPlaying ? Infinity : 0, 
                     ease: "easeInOut" 
                   }}
-                >
-                  <motion.div 
+                >                  <motion.div 
                     className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent"
                     animate={{
                       scale: showClickEffect ? [1, 1.1, 1] : 1
@@ -214,6 +220,14 @@ const Hero = () => {
                     transition={{ duration: 0.3 }}
                   >
                     VAJRA
+                  </motion.div>                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-xs xs:text-xs sm:text-sm md:text-base lg:text-lg font-medium mt-2 tracking-wide flex items-center gap-1"
+                  >
+                    <span className="text-yellow-400">{isPlaying ? '▶' : '⏸'}</span>
+                    <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">{isPlaying ? 'PLAYING' : 'PAUSED'}</span>
                   </motion.div>
                 </motion.div>
               </div>

@@ -1,6 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Twitter, Instagram } from 'lucide-react';
+import { portfolioEvents } from '../lib/analytics';
 
 interface SocialLink {
   icon: typeof Github;
@@ -20,12 +21,12 @@ const SocialLinks = () => {
     <div>
       <h4 className="text-lg font-semibold text-white mb-4">Follow Me</h4>
       <div className="flex space-x-4">
-        {socialLinks.map((social, index) => (
-          <motion.a
+        {socialLinks.map((social, index) => (          <motion.a
             key={index}
             href={social.href}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => portfolioEvents.socialLinkClick(social.label)}
             whileHover={{ scale: 1.1, y: -5 }}
             whileTap={{ scale: 0.95 }}
             className="w-12 h-12 bg-gray-800/50 rounded-lg flex items-center justify-center border border-gray-700 hover:border-cyan-400 hover:bg-gray-700/50 transition-all duration-300"

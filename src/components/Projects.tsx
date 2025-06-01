@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Github, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
+import { portfolioEvents } from '../lib/analytics';
 
 const Projects = () => {
   const { ref, inView } = useInView({
@@ -78,8 +79,10 @@ const Projects = () => {
               key={project.id}
               initial={{ opacity: 0, y: 50 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              onMouseEnter={() => setHoveredProject(project.id)}
+              transition={{ duration: 0.8, delay: index * 0.2 }}              onMouseEnter={() => {
+                setHoveredProject(project.id);
+                portfolioEvents.projectView(project.title);
+              }}
               onMouseLeave={() => setHoveredProject(null)}
               className="relative group cursor-pointer"
             >              <div className="relative overflow-hidden rounded-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 transition-all duration-300 hover:scale-[1.02] hover:border-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/10">
@@ -117,13 +120,13 @@ const Projects = () => {
                       >
                         <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
                         <p className="text-gray-300 mb-4 text-sm leading-relaxed">{project.description}</p>
-                        <div className="flex justify-center space-x-3">
-                          <motion.a
+                        <div className="flex justify-center space-x-3">                          <motion.a
                             whileHover={{ scale: 1.1, y: -2 }}
                             whileTap={{ scale: 0.95 }}
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => portfolioEvents.projectLinkClick(project.title, 'github')}
                             className="p-3 bg-gray-700/80 rounded-full hover:bg-gray-600 transition-all duration-200 shadow-lg"
                           >
                             <Github size={18} />
@@ -134,6 +137,7 @@ const Projects = () => {
                             href={project.live}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={() => portfolioEvents.projectLinkClick(project.title, 'demo')}
                             className="p-3 bg-cyan-600/90 rounded-full hover:bg-cyan-500 transition-all duration-200 shadow-lg shadow-cyan-500/20"
                           >
                             <ExternalLink size={18} />
