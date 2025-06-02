@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Send } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
+import { portfolioEvents } from '../lib/analytics';
 
 interface ContactFormProps {
   inView: boolean;
@@ -25,20 +26,28 @@ const ContactForm = ({ inView }: ContactFormProps) => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message sent successfully!",
-        description: "Thank you for reaching out. I'll get back to you soon.",
-      });
-      setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      // Track form submission event
+      portfolioEvents.contactFormSubmit();
+      
+      // Simulate form submission
+      setTimeout(() => {
+        toast({
+          title: "Message sent successfully!",
+          description: "Thank you for reaching out. I'll get back to you soon.",
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setIsSubmitting(false);
+      }, 2000);
+    } catch (error) {
+      // Track form error event
+      portfolioEvents.contactFormError('Form submission failed');
       setIsSubmitting(false);
-    }, 2000);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

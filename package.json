@@ -8,9 +8,7 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "generate-real-resume": "node scripts/generate-real-resume.js",
-    "prebuild": "npm run generate-real-resume"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@radix-ui/react-toast": "^1.2.1",
@@ -22,7 +20,6 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.15.0",
     "lucide-react": "^0.462.0",
-    "puppeteer": "^24.9.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-ga4": "^2.1.0",

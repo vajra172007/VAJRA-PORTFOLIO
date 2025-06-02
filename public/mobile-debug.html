@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Analytics Debug</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+            line-height: 1.6;
+        }
+        .debug-panel {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid #444;
+        }
+        .success { color: #4ade80; }
+        .error { color: #ef4444; }
+        .warning { color: #fbbf24; }
+        .info { color: #60a5fa; }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .status {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .log {
+            background: #111;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Mobile Analytics Debug Tool</h1>
+    
+    <div class="debug-panel">
+        <h2>Device Info</h2>
+        <div id="device-info"></div>
+    </div>
+
+    <div class="debug-panel">
+        <h2>Analytics Status</h2>
+        <div id="analytics-status"></div>
+        <button onclick="initializeGA()">Initialize GA</button>
+        <button onclick="testEvent()">Test Event</button>
+        <button onclick="testPageView()">Test Page View</button>
+    </div>
+
+    <div class="debug-panel">
+        <h2>Debug Log</h2>
+        <button onclick="clearLog()">Clear Log</button>
+        <div id="debug-log" class="log"></div>
+    </div>
+
+    <script>
+        // Debug logging
+        const log = (message, type = 'info') => {
+            const timestamp = new Date().toISOString().substr(11, 8);
+            const logDiv = document.getElementById('debug-log');
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        };
+
+        // Clear log
+        const clearLog = () => {
+            document.getElementById('debug-log').innerHTML = '';
+        };
+
+        // Device detection
+        const isMobile = () => {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                   (window.innerWidth <= 768);
+        };
+
+        // Display device info
+        const showDeviceInfo = () => {
+            const info = {
+                userAgent: navigator.userAgent,
+                isMobile: isMobile(),
+                screenWidth: window.screen.width,
+                screenHeight: window.screen.height,
+                innerWidth: window.innerWidth,
+                innerHeight: window.innerHeight,
+                connection: navigator.connection ? {
+                    effectiveType: navigator.connection.effectiveType,
+                    downlink: navigator.connection.downlink,
+                    rtt: navigator.connection.rtt
+                } : 'Not available'
+            };
+
+            document.getElementById('device-info').innerHTML = `
+                <div><strong>User Agent:</strong> ${info.userAgent}</div>
+                <div><strong>Is Mobile:</strong> ${info.isMobile}</div>
+                <div><strong>Screen:</strong> ${info.screenWidth}x${info.screenHeight}</div>
+                <div><strong>Viewport:</strong> ${info.innerWidth}x${info.innerHeight}</div>
+                <div><strong>Connection:</strong> ${JSON.stringify(info.connection, null, 2)}</div>
+            `;
+
+            log(`Device detected: ${info.isMobile ? 'Mobile' : 'Desktop'}`);
+        };
+
+        // GA Measurement ID
+        const GA_MEASUREMENT_ID = 'G-9H8RMSR2RZ';
+
+        // Initialize Google Analytics
+        const initializeGA = async () => {
+            try {
+                log('🚀 Starting GA initialization...', 'info');
+                
+                // Check if script already exists
+                if (document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"]`)) {
+                    log('⚠️ GA script already exists', 'warning');
+                    updateAnalyticsStatus('Already initialized');
+                    return;
+                }
+
+                // Load GA script
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+                
+                script.onload = () => {
+                    log('✅ GA script loaded successfully', 'success');
+                    
+                    // Initialize dataLayer and gtag
+                    window.dataLayer = window.dataLayer || [];
+                    window.gtag = function() {
+                        window.dataLayer.push(arguments);
+                    };
+                    
+                    // Configure GA4
+                    window.gtag('js', new Date());
+                    window.gtag('config', GA_MEASUREMENT_ID, {
+                        send_page_view: true,
+                        anonymize_ip: true,
+                        allow_google_signals: true,
+                        transport_type: 'beacon',
+                        custom_map: {
+                            device_type: isMobile() ? 'mobile' : 'desktop'
+                        }
+                    });
+                    
+                    log('✅ GA configured successfully', 'success');
+                    updateAnalyticsStatus('Initialized and configured');
+                    
+                    // Test initial event
+                    window.gtag('event', 'debug_init', {
+                        device_type: isMobile() ? 'mobile' : 'desktop',
+                        user_agent: navigator.userAgent.slice(0, 100)
+                    });
+                    
+                    log('📊 Initial debug event sent', 'info');
+                };
+                
+                script.onerror = () => {
+                    log('❌ Failed to load GA script', 'error');
+                    updateAnalyticsStatus('Failed to load');
+                };
+                
+                document.head.appendChild(script);
+                log('📜 GA script added to head', 'info');
+                
+            } catch (error) {
+                log(`❌ GA initialization error: ${error.message}`, 'error');
+                updateAnalyticsStatus(`Error: ${error.message}`);
+            }
+        };
+
+        // Update analytics status
+        const updateAnalyticsStatus = (status) => {
+            const statusDiv = document.getElementById('analytics-status');
+            const timestamp = new Date().toLocaleTimeString();
+            statusDiv.innerHTML = `
+                <div class="status info">
+                    <strong>Status:</strong> ${status}<br>
+                    <strong>Last Update:</strong> ${timestamp}<br>
+                    <strong>gtag Available:</strong> ${typeof window.gtag !== 'undefined'}<br>
+                    <strong>dataLayer Available:</strong> ${Array.isArray(window.dataLayer)}
+                </div>
+            `;
+        };
+
+        // Test event
+        const testEvent = () => {
+            if (typeof window.gtag === 'undefined') {
+                log('❌ gtag not available - initialize GA first', 'error');
+                return;
+            }
+            
+            const eventName = 'mobile_test_event';
+            const eventData = {
+                device_type: isMobile() ? 'mobile' : 'desktop',
+                timestamp: new Date().toISOString(),
+                test_id: Math.random().toString(36).substr(2, 9)
+            };
+            
+            window.gtag('event', eventName, eventData);
+            log(`📊 Test event sent: ${eventName}`, 'success');
+            log(`📋 Event data: ${JSON.stringify(eventData, null, 2)}`, 'info');
+        };
+
+        // Test page view
+        const testPageView = () => {
+            if (typeof window.gtag === 'undefined') {
+                log('❌ gtag not available - initialize GA first', 'error');
+                return;
+            }
+            
+            const pageData = {
+                page_title: 'Mobile Debug Test',
+                page_location: window.location.href,
+                device_type: isMobile() ? 'mobile' : 'desktop'
+            };
+            
+            window.gtag('config', GA_MEASUREMENT_ID, pageData);
+            log('📄 Test page view sent', 'success');
+            log(`📋 Page data: ${JSON.stringify(pageData, null, 2)}`, 'info');
+        };
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🎯 Debug tool loaded', 'info');
+            showDeviceInfo();
+            updateAnalyticsStatus('Not initialized');
+            
+            // Auto-initialize for testing
+            setTimeout(() => {
+                log('🔄 Auto-initializing GA in 2 seconds...', 'info');
+                initializeGA();
+            }, 2000);
+        });
+
+        // Override console methods to capture logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            log(args.join(' '), 'info');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            log(args.join(' '), 'error');
+        };
+    </script>
+</body>
+</html>

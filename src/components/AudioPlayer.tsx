@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { portfolioEvents } from '../lib/analytics';
 
 // Audio files
 const audioFiles = [
@@ -36,12 +37,17 @@ const AudioPlayer = ({ isPlaying, togglePlay }: AudioPlayerProps) => {
       }
     };
   }, []);
-
   // Handle play/pause
   useEffect(() => {
     if (!audioRef.current) return;
     
+    const currentTrack = audioFiles[currentSongIndex];
+    const trackName = currentTrack.split('/').pop()?.replace('.mp3', '') || 'Unknown Track';
+    
     if (isPlaying) {
+      // Track audio play event
+      portfolioEvents.audioPlay(trackName);
+      
       // Try to play and handle autoplay policy
       const playPromise = audioRef.current.play();
       
@@ -51,9 +57,11 @@ const AudioPlayer = ({ isPlaying, togglePlay }: AudioPlayerProps) => {
         });
       }
     } else {
+      // Track audio pause event
+      portfolioEvents.audioPause(trackName);
       audioRef.current.pause();
     }
-  }, [isPlaying]);
+  }, [isPlaying, currentSongIndex]);
 
   // Handle volume change
   useEffect(() => {
