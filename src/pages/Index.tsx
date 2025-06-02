@@ -6,6 +6,7 @@ import Skills from '../components/Skills';
 import Contact from '../components/Contact';
 import Navigation from '../components/Navigation';
 import TechBackground from '../components/TechBackground';
+import AnalyticsTestChecker from '../components/AnalyticsTestChecker';
 
 const Index = () => {
   return (
@@ -25,9 +26,12 @@ const Index = () => {
       >
         <Hero />
         <About />
-        <Projects />
-        <Skills />        <Contact />
+        <Projects />        <Skills />        
+        <Contact />
       </motion.main>
+      
+      {/* Analytics Test Panel - Only visible in development */}
+      {import.meta.env.DEV && <AnalyticsTestChecker />}
     </div>
   );
 };

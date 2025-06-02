@@ -19,12 +19,19 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => {
-  // Initialize Google Analytics when the app starts
+const App = () => {  // Initialize Google Analytics when the app starts
   useEffect(() => {
-    initGA();
-    // Track initial page view
-    trackPageView(window.location.pathname, 'VAJRA Portfolio');
+    const initializeAnalytics = async () => {
+      try {
+        await initGA();
+        // Track initial page view after GA is initialized
+        trackPageView(window.location.pathname, 'VAJRA Portfolio');
+      } catch (error) {
+        console.error('Failed to initialize analytics:', error);
+      }
+    };
+    
+    initializeAnalytics();
   }, []);
 
   return (

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Analytics Test - VAJRA Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: #2a2a2a;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #00ffff;
+        }
+        .test-button {
+            background: #00ffff;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+            width: 100%;
+            max-width: 300px;
+            touch-action: manipulation;
+        }
+        .test-button:active {
+            background: #00cccc;
+        }
+        .result {
+            background: #333;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+        .status.success { background: #0f5132; color: #75b798; }
+        .status.error { background: #58151c; color: #f1aeb5; }
+        .status.warning { background: #664d03; color: #ffda6a; }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .test-section { padding: 10px; }
+            .test-button { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>📱 Mobile Analytics Test Suite</h1>
+        <p>Test Google Analytics functionality on mobile devices</p>
+        
+        <div class="test-section">
+            <h3>🔧 Setup Tests</h3>
+            <button class="test-button" onclick="testGASetup()">Test GA Setup</button>
+            <button class="test-button" onclick="testEnvironment()">Test Environment</button>
+            <div id="setup-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🎵 Audio Player Tests</h3>
+            <button class="test-button" onclick="testAudioPlay()">Test Audio Play</button>
+            <button class="test-button" onclick="testAudioPause()">Test Audio Pause</button>
+            <div id="audio-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🧭 Navigation Tests</h3>
+            <button class="test-button" onclick="testNavigation()">Test Navigation</button>
+            <button class="test-button" onclick="testPageView()">Test Page View</button>
+            <div id="nav-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>💼 Project Tests</h3>
+            <button class="test-button" onclick="testProjectView()">Test Project View</button>
+            <button class="test-button" onclick="testProjectClick()">Test Project Click</button>
+            <div id="project-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📱 Social Media Tests</h3>
+            <button class="test-button" onclick="testSocialClick()">Test Social Click</button>
+            <div id="social-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📄 Resume Tests</h3>
+            <button class="test-button" onclick="testResumeDownload()">Test Resume Download</button>
+            <div id="resume-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📧 Contact Form Tests</h3>
+            <button class="test-button" onclick="testContactSubmit()">Test Form Submit</button>
+            <button class="test-button" onclick="testContactError()">Test Form Error</button>
+            <div id="contact-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 All Tests</h3>
+            <button class="test-button" onclick="runAllTests()" style="background: #ff6b6b; color: white;">Run All Tests</button>
+            <button class="test-button" onclick="clearResults()" style="background: #666; color: white;">Clear Results</button>
+            <div id="all-results"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📋 Instructions</h3>
+            <ul>
+                <li>Open browser DevTools (Desktop: F12, Mobile: inspect via desktop)</li>
+                <li>Go to Console tab</li>
+                <li>Run tests and watch for analytics events</li>
+                <li>Check Network tab for gtag requests</li>
+                <li>Verify touch interactions work properly</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Simulate the analytics functions for testing
+        const portfolioEvents = {
+            navigateToSection: (section) => {
+                console.log('📍 Navigation Event:', section);
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'navigate', { event_category: 'section', event_label: section });
+                }
+                return '✅ Navigation tracked: ' + section;
+            },
+            audioPlay: (track) => {
+                console.log('🎵 Audio Play Event:', track);
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'audio_play', { event_category: 'media', event_label: track });
+                }
+                return '✅ Audio play tracked: ' + track;
+            },
+            audioPause: (track) => {
+                console.log('⏸️ Audio Pause Event:', track);
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'audio_pause', { event_category: 'media', event_label: track });
+                }
+                return '✅ Audio pause tracked: ' + track;
+            },
+            projectView: (project) => {
+                console.log('👁️ Project View Event:', project);
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'project_view', { event_category: 'portfolio', event_label: project });
+                }
+                return '✅ Project view tracked: ' + project;
+            },
+            projectLinkClick: (project, type) => {
+                console.log('🔗 Project Link Click Event:', project, type);
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'project_link_click', { event_category: 'portfolio', event_label: project + '_' + type });
+                }
+                return '✅ Project link tracked: ' + project + ' (' + type + ')';
+            },
+            socialLinkClick: (platform) => {
+                console.log('📱 Social Link Click Event:', platform);
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'social_click', { event_category: 'social_media', event_label: platform });
+                }
+                return '✅ Social click tracked: ' + platform;
+            },
+            resumeDownload: () => {
+                console.log('📄 Resume Download Event');
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'download', { event_category: 'resume', event_label: 'VAJRA_Resume.pdf', value: 1 });
+                }
+                return '✅ Resume download tracked';
+            },
+            contactFormSubmit: () => {
+                console.log('📧 Contact Form Submit Event');
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'form_submit', { event_category: 'contact', event_label: 'contact_form' });
+                }
+                return '✅ Contact form submit tracked';
+            },
+            contactFormError: (error) => {
+                console.log('❌ Contact Form Error Event:', error);
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'form_error', { event_category: 'contact', event_label: error });
+                }
+                return '✅ Contact form error tracked: ' + error;
+            }
+        };
+
+        function addResult(containerId, message, type = 'success') {
+            const container = document.getElementById(containerId);
+            const result = document.createElement('div');
+            result.className = 'result';
+            result.innerHTML = `<span class="status ${type}">${new Date().toLocaleTimeString()}</span> ${message}`;
+            container.appendChild(result);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function testGASetup() {
+            if (typeof gtag !== 'undefined') {
+                addResult('setup-results', '✅ Google Analytics gtag found', 'success');
+            } else {
+                addResult('setup-results', '❌ Google Analytics gtag not found', 'error');
+            }
+            
+            if (typeof dataLayer !== 'undefined') {
+                addResult('setup-results', '✅ DataLayer found', 'success');
+            } else {
+                addResult('setup-results', '❌ DataLayer not found', 'error');
+            }
+        }
+
+        function testEnvironment() {
+            const isMobile = window.innerWidth <= 768;
+            const isTouchDevice = 'ontouchstart' in window;
+            
+            addResult('setup-results', `📱 Mobile device: ${isMobile ? 'Yes' : 'No'}`, isMobile ? 'success' : 'warning');
+            addResult('setup-results', `👆 Touch support: ${isTouchDevice ? 'Yes' : 'No'}`, isTouchDevice ? 'success' : 'warning');
+            addResult('setup-results', `📐 Screen size: ${window.innerWidth}x${window.innerHeight}`, 'success');
+        }
+
+        function testAudioPlay() {
+            const result = portfolioEvents.audioPlay('Mobile Test Track');
+            addResult('audio-results', result, 'success');
+        }
+
+        function testAudioPause() {
+            const result = portfolioEvents.audioPause('Mobile Test Track');
+            addResult('audio-results', result, 'success');
+        }
+
+        function testNavigation() {
+            const result = portfolioEvents.navigateToSection('mobile_test_section');
+            addResult('nav-results', result, 'success');
+        }
+
+        function testPageView() {
+            if (typeof gtag !== 'undefined') {
+                gtag('config', 'G-9H8RMSR2RZ', { page_title: 'Mobile Test Page', page_location: window.location.href });
+                addResult('nav-results', '✅ Page view tracked', 'success');
+            } else {
+                addResult('nav-results', '❌ Cannot track page view - gtag not found', 'error');
+            }
+        }
+
+        function testProjectView() {
+            const result = portfolioEvents.projectView('Mobile Test Project');
+            addResult('project-results', result, 'success');
+        }
+
+        function testProjectClick() {
+            const result = portfolioEvents.projectLinkClick('Mobile Test Project', 'demo');
+            addResult('project-results', result, 'success');
+        }
+
+        function testSocialClick() {
+            const result = portfolioEvents.socialLinkClick('mobile_test_platform');
+            addResult('social-results', result, 'success');
+        }
+
+        function testResumeDownload() {
+            const result = portfolioEvents.resumeDownload();
+            addResult('resume-results', result, 'success');
+        }
+
+        function testContactSubmit() {
+            const result = portfolioEvents.contactFormSubmit();
+            addResult('contact-results', result, 'success');
+        }
+
+        function testContactError() {
+            const result = portfolioEvents.contactFormError('Mobile test error');
+            addResult('contact-results', result, 'success');
+        }
+
+        function runAllTests() {
+            addResult('all-results', '🚀 Starting comprehensive mobile analytics test...', 'warning');
+            
+            setTimeout(() => testGASetup(), 100);
+            setTimeout(() => testEnvironment(), 200);
+            setTimeout(() => testAudioPlay(), 300);
+            setTimeout(() => testAudioPause(), 400);
+            setTimeout(() => testNavigation(), 500);
+            setTimeout(() => testPageView(), 600);
+            setTimeout(() => testProjectView(), 700);
+            setTimeout(() => testProjectClick(), 800);
+            setTimeout(() => testSocialClick(), 900);
+            setTimeout(() => testResumeDownload(), 1000);
+            setTimeout(() => testContactSubmit(), 1100);
+            setTimeout(() => testContactError(), 1200);
+            
+            setTimeout(() => {
+                addResult('all-results', '🎉 All mobile tests completed! Check console and network tabs.', 'success');
+            }, 1300);
+        }
+
+        function clearResults() {
+            const containers = ['setup-results', 'audio-results', 'nav-results', 'project-results', 
+                             'social-results', 'resume-results', 'contact-results', 'all-results'];
+            containers.forEach(id => {
+                document.getElementById(id).innerHTML = '';
+            });
+            console.clear();
+        }
+
+        // Load Google Analytics for testing
+        window.addEventListener('load', function() {
+            // Simulate loading GA4
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-9H8RMSR2RZ';
+            document.head.appendChild(script);
+            
+            script.onload = function() {
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-9H8RMSR2RZ', {
+                    debug_mode: true
+                });
+                window.gtag = gtag;
+                
+                setTimeout(() => {
+                    addResult('setup-results', '✅ Google Analytics loaded for testing', 'success');
+                }, 1000);
+            };
+        });
+    </script>
+</body>
+</html>
