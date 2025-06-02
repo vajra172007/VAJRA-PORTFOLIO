@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 interface CodeLine {
   id: number;
@@ -14,7 +14,8 @@ interface CodeLine {
 const TechBackground = () => {
   const [codeLines, setCodeLines] = useState<CodeLine[]>([]);
   const [screenDimensions, setScreenDimensions] = useState({ width: 1920, height: 1080 });
-  const codeSnippets = [
+  
+  const codeSnippets = useMemo(() => [
     // VAJRA's Core Identity & Bio
     "const developer = 'VAJRA';",
     "console.log('Building the future...');",
@@ -145,8 +146,7 @@ const TechBackground = () => {
     "const mindset = 'solution-oriented';",
     "// From pixels to functionality",
     "// Making the web a better place",
-    
-    // Development Process
+      // Development Process
     "// Plan → Code → Test → Deploy",
     "const workflow = 'agile-methodology';",
     "// Start with wireframes",
@@ -157,7 +157,7 @@ const TechBackground = () => {
     "const optimization = 'ongoing-process';",
     "// Ship fast, learn faster",
     "const delivery = 'mvp-first';",
-  ];
+  ], []);
 
   useEffect(() => {
     const updateScreenDimensions = () => {
@@ -279,14 +279,12 @@ const TechBackground = () => {
         
         // Add extra safe zone for snippet content
         const safeZoneX = snippetWidth * 0.6;
-        const safeZoneY = snippetHeight * 0.6;
-
-        while (points.length < count && tries < count * maxTries) {
+        const safeZoneY = snippetHeight * 0.6;        while (points.length < count && tries < count * maxTries) {
           const x = Math.random() * (width - snippetWidth - (padding + safeZoneX) * 2) + (padding + safeZoneX) + snippetWidth / 2;
           const y = Math.random() * (height - snippetHeight - (padding + safeZoneY) * 2) + (padding + safeZoneY) + snippetHeight / 2;
           let ok = true;
 
-          for (let p of points) {
+          for (const p of points) {
             const dx = p.x - x;
             const dy = p.y - y;
             const distance = Math.sqrt(dx * dx + dy * dy);
@@ -317,9 +315,7 @@ const TechBackground = () => {
         });
       }
       setCodeLines(newCodeLines);
-    };
-
-    updateCodeLines();
+    };    updateCodeLines();
 
     const handleResize = () => {
       updateCodeLines();
@@ -327,7 +323,7 @@ const TechBackground = () => {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [codeSnippets]);
 
   useEffect(() => {
     let animationId: number;
@@ -403,9 +399,7 @@ const TechBackground = () => {
               while (!ok && tries < maxTries) {
                 x = Math.random() * (screenWidth - snippetWidth - (padding + safeZoneX) * 2) + (padding + safeZoneX) + snippetWidth / 2;
                 y = screenHeight + Math.random() * 200 + 100;
-                ok = true;
-
-                for (let other of prev) {
+                ok = true;                for (const other of prev) {
                   if (other.id !== line.id) {
                     const dx = other.x - x;
                     const dy = other.y - y;

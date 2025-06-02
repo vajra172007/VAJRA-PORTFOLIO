@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { portfolioEvents, trackEvent } from '../lib/analytics';
 
 interface AnalyticsStatus {
@@ -8,7 +8,23 @@ interface AnalyticsStatus {
   deviceType: string;
   userAgent: string;
   screenSize: string;
-  networkInfo: any;
+  networkInfo: NetworkInfo | string;
+}
+
+interface NetworkInfo {
+  effectiveType?: string;
+  downlink?: number;
+  rtt?: number;
+}
+
+interface NavigatorConnection {
+  effectiveType?: string;
+  downlink?: number;
+  rtt?: number;
+}
+
+interface ExtendedNavigator extends Navigator {
+  connection?: NavigatorConnection;
 }
 
 const AnalyticsTestChecker = () => {
@@ -18,30 +34,30 @@ const AnalyticsTestChecker = () => {
 
   const addResult = (result: string) => {
     setTestResults(prev => [...prev, `${new Date().toLocaleTimeString()}: ${result}`]);
-  };
-
-  // Check analytics status
-  const checkAnalyticsStatus = () => {
+  };  // Check analytics status
+  const checkAnalyticsStatus = useCallback(() => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
                      (window.innerWidth <= 768);
     
+    const extendedNavigator = navigator as ExtendedNavigator;
+    
     const status: AnalyticsStatus = {
-      gaLoaded: !!(window as any).gtag || !!(window as any).ga,
-      gtagAvailable: typeof (window as any).gtag !== 'undefined',
-      dataLayerAvailable: Array.isArray((window as any).dataLayer),
+      gaLoaded: !!(window as Window & { gtag?: unknown; ga?: unknown }).gtag || !!(window as Window & { gtag?: unknown; ga?: unknown }).ga,
+      gtagAvailable: typeof (window as Window & { gtag?: unknown }).gtag !== 'undefined',
+      dataLayerAvailable: Array.isArray((window as Window & { dataLayer?: unknown[] }).dataLayer),
       deviceType: isMobile ? 'mobile' : 'desktop',
       userAgent: navigator.userAgent.slice(0, 100) + '...',
       screenSize: `${window.screen.width}x${window.screen.height} (viewport: ${window.innerWidth}x${window.innerHeight})`,
-      networkInfo: (navigator as any).connection ? {
-        effectiveType: (navigator as any).connection.effectiveType,
-        downlink: (navigator as any).connection.downlink,
-        rtt: (navigator as any).connection.rtt
+      networkInfo: extendedNavigator.connection ? {
+        effectiveType: extendedNavigator.connection.effectiveType,
+        downlink: extendedNavigator.connection.downlink,
+        rtt: extendedNavigator.connection.rtt
       } : 'Not available'
     };
     
     setAnalyticsStatus(status);
     addResult(`📊 Analytics Status Updated - GA Loaded: ${status.gaLoaded}, Device: ${status.deviceType}`);
-  };
+  }, []);
 
   // Enhanced test function with mobile-specific tests
   const runAnalyticsTests = () => {
@@ -116,27 +132,28 @@ const AnalyticsTestChecker = () => {
 
   const clearResults = () => {
     setTestResults([]);
-  };
-
-  // Check analytics status on mount and periodically
+  };  // Check analytics status on mount and periodically
   useEffect(() => {
-    checkAnalyticsStatus();
-    const interval = setInterval(checkAnalyticsStatus, 5000);
+    const handleStatusCheck = () => {
+      checkAnalyticsStatus();
+    };
+    
+    handleStatusCheck();
+    const interval = setInterval(handleStatusCheck, 5000);
     return () => clearInterval(interval);
-  }, []);
-
+  }, [checkAnalyticsStatus]);
   // Check if GA is properly initialized
   useEffect(() => {
     const checkGA = () => {
       // Check if gtag exists
-      if (typeof window !== 'undefined' && (window as any).gtag) {
+      if (typeof window !== 'undefined' && (window as Window & { gtag?: unknown }).gtag) {
         addResult('✅ Google Analytics gtag found');
       } else {
         addResult('❌ Google Analytics gtag not found');
       }
 
       // Check if GA4 is loaded
-      if (typeof window !== 'undefined' && (window as any).dataLayer) {
+      if (typeof window !== 'undefined' && (window as Window & { dataLayer?: unknown[] }).dataLayer) {
         addResult('✅ DataLayer found');
       } else {
         addResult('❌ DataLayer not found');

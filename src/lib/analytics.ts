@@ -24,11 +24,10 @@ const loadGAScript = (measurementId: string): Promise<void> => {
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
     
-    script.onload = () => {
-      // Initialize dataLayer and gtag
+    script.onload = () => {      // Initialize dataLayer and gtag
       window.dataLayer = window.dataLayer || [];
-      window.gtag = function() {
-        window.dataLayer.push(arguments);
+      window.gtag = function(...args: unknown[]) {
+        window.dataLayer.push(args);
       };
       
       // Basic GA4 configuration
@@ -64,10 +63,14 @@ const loadGAScript = (measurementId: string): Promise<void> => {
  * Call this once when your app starts
  */
 export const initGA = async () => {
+  // Check if we're in a browser environment first
+  if (typeof window === 'undefined') {
+    return;
+  }
+  
   // Only initialize if we have a valid measurement ID and conditions are met
   const shouldInitialize = GA_MEASUREMENT_ID && 
     GA_MEASUREMENT_ID !== 'G-XXXXXXXXXX' && 
-    typeof window !== 'undefined' &&
     (import.meta.env.PROD || ENABLE_ANALYTICS_IN_DEV);
 
   if (!shouldInitialize) {

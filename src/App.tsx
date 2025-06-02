@@ -24,9 +24,12 @@ const App = () => {  // Initialize Google Analytics when the app starts
     const initializeAnalytics = async () => {
       try {
         await initGA();
-        // Track initial page view after GA is initialized
-        trackPageView(window.location.pathname, 'VAJRA Portfolio');
+        // Only track page view if GA was successfully initialized
+        if (window.gtag) {
+          trackPageView(window.location.pathname, 'VAJRA Portfolio');
+        }
       } catch (error) {
+        // Log error but don't break the app
         console.error('Failed to initialize analytics:', error);
       }
     };

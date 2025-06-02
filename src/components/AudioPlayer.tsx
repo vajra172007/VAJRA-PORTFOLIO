@@ -16,7 +16,6 @@ const AudioPlayer = ({ isPlaying, togglePlay }: AudioPlayerProps) => {
   const [volume, setVolume] = useState<number>(0.5); // Start at 50% volume
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [currentSongIndex, setCurrentSongIndex] = useState<number>(0);
-
   // Initialize audio on component mount
   useEffect(() => {
     // Select a random audio file on component mount
@@ -36,7 +35,7 @@ const AudioPlayer = ({ isPlaying, togglePlay }: AudioPlayerProps) => {
         audioRef.current.src = '';
       }
     };
-  }, []);
+  }, [volume]);
   // Handle play/pause
   useEffect(() => {
     if (!audioRef.current) return;
