@@ -78,4 +78,18 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     https: getHttpsConfig(),
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['@radix-ui/react-toast', '@radix-ui/react-tooltip', 'sonner'],
+          'three-vendor': ['three', '@react-three/fiber'],
+          'analytics': ['react-ga4'],
+          'utils': ['clsx', 'tailwind-merge'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+  },
 }));
