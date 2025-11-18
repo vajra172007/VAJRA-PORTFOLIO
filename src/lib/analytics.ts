@@ -22,7 +22,9 @@ const loadGAScript = (measurementId: string): Promise<void> => {
 
     const script = document.createElement('script');
     script.async = true;
+    // Force HTTPS for Google Analytics
     script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+    script.crossOrigin = "anonymous";
     
     script.onload = () => {      // Initialize dataLayer and gtag
       window.dataLayer = window.dataLayer || [];

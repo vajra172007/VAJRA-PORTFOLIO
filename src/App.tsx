@@ -9,6 +9,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { initGA, trackPageView } from "./lib/analytics";
+import { initSecurityContext } from "./lib/https-security";
+import { initSecurityProtections } from "./lib/security-utils";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,22 +21,30 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => {  // Initialize Google Analytics when the app starts
+const App = () => {  // Initialize security, analytics and app context on startup
   useEffect(() => {
-    const initializeAnalytics = async () => {
+    const initializeApp = async () => {
       try {
+        // 1. Initialize comprehensive security protections
+        initSecurityProtections();
+        
+        // 2. Initialize HTTPS security context
+        initSecurityContext();
+        
+        // 3. Initialize Google Analytics
         await initGA();
-        // Only track page view if GA was successfully initialized
+        
+        // 4. Track initial page view
         if (window.gtag) {
           trackPageView(window.location.pathname, 'VAJRA Portfolio');
         }
       } catch (error) {
         // Log error but don't break the app
-        console.error('Failed to initialize analytics:', error);
+        console.error('Failed to initialize app:', error);
       }
     };
     
-    initializeAnalytics();
+    initializeApp();
   }, []);
 
   return (

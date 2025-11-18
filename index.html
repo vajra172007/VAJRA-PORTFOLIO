@@ -1,18 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Security Headers Meta Tags -->
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    
+    <!-- Security and Performance -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#1a1a1a" />
+    
+    <!-- Core Meta Information -->
     <title>VAJRA-DEV.ME</title>
     <meta name="description" content="An Personal Website PortFolio" />
     <meta name="author" content="Vajra" />
+    <meta name="application-name" content="VAJRA Portfolio" />
+    
+    <!-- Security and Preconnect -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.gpteng.co" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    
+    <!-- Favicon with fallbacks -->
     <link rel="icon" type="image/png" href="/VAJRA-LOGO.png" />
+    <link rel="shortcut icon" href="/VAJRA-LOGO.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/VAJRA-LOGO.png" />
   </head>
 
   <body>
     <div id="root"></div>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module" crossorigin="anonymous"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
