@@ -25,23 +25,29 @@
  */
 
 /**
- * Security headers configuration for HTTPS
+ * Security headers configuration for HTTPS (Updated 2026)
  * 
  * Content-Security-Policy: Prevents XSS attacks
- * Strict-Transport-Security: Enforces HTTPS
+ * Strict-Transport-Security: Enforces HTTPS (2 years)
  * X-Content-Type-Options: Prevents MIME type sniffing
  * X-Frame-Options: Prevents clickjacking
- * X-XSS-Protection: Browser XSS filter
+ * X-XSS-Protection: Browser XSS filter (deprecated but still used)
  * Referrer-Policy: Controls referrer information
  * Permissions-Policy: Controls browser features
+ * Expect-CT: Certificate Transparency monitoring
+ * Cross-Origin-Opener-Policy: Isolates browsing context
+ * Cross-Origin-Resource-Policy: Controls cross-origin resource access
  */
 export const securityHeaders = {
-  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+  'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload', // 2 years
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'SAMEORIGIN',
   'X-XSS-Protection': '1; mode=block',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
-  'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
+  'Permissions-Policy': 'geolocation=(), microphone=(), camera=(), payment=(), usb=()',
+  'Expect-CT': 'max-age=86400, enforce',
+  'Cross-Origin-Opener-Policy': 'same-origin',
+  'Cross-Origin-Resource-Policy': 'same-origin',
   'Content-Security-Policy': 
     "default-src 'self'; " +
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; " +

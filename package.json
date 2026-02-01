@@ -10,7 +10,9 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate-certs": "node scripts/generate-certs.js"
+    "generate-certs": "node scripts/generate-certs.js",
+    "renew-ssl": "node scripts/generate-certs.js --renew",
+    "check-ssl": "node scripts/generate-certs.js"
   },
   "dependencies": {
     "@radix-ui/react-toast": "^1.2.1",

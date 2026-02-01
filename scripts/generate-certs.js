@@ -18,17 +18,44 @@ if (!fs.existsSync(certDir)) {
 const keyPath = path.join(certDir, "key.pem");
 const certPath = path.join(certDir, "cert.pem");
 
-// Check if certificates already exist
-if (fs.existsSync(keyPath) && fs.existsSync(certPath)) {
-  console.log("✅ HTTPS certificates already exist at:", certDir);
+// Check if certificates need renewal (exist and are less than 30 days from expiry)
+function checkCertificateValidity() {
+  if (!fs.existsSync(certPath)) return false;
+  
+  try {
+    const certInfo = execSync(`openssl x509 -in "${certPath}" -noout -dates`, { encoding: 'utf8' });
+    const expiryMatch = certInfo.match(/notAfter=(.+)/);
+    if (expiryMatch) {
+      const expiryDate = new Date(expiryMatch[1]);
+      const now = new Date();
+      const daysUntilExpiry = (expiryDate - now) / (1000 * 60 * 60 * 24);
+      
+      if (daysUntilExpiry > 30) {
+        console.log(`✅ HTTPS certificates are valid for ${Math.floor(daysUntilExpiry)} more days`);
+        console.log(`📁 Location: ${certDir}`);
+        return true;
+      } else {
+        console.log(`⚠️  HTTPS certificates expire in ${Math.floor(daysUntilExpiry)} days - renewing...`);
+      }
+    }
+  } catch (error) {
+    console.log("🔄 Certificate validation failed - generating new ones...");
+  }
+  return false;
+}
+
+// Force renewal if --renew flag is passed
+const forceRenewal = process.argv.includes('--renew') || process.argv.includes('-r');
+
+if (!forceRenewal && checkCertificateValidity()) {
   process.exit(0);
 }
 
-console.log("🔐 Generating HTTPS certificates...");
+console.log("🔐 Generating new HTTPS certificates...");
 
 try {
-  // Generate self-signed certificate valid for 365 days
-  const command = `openssl req -x509 -newkey rsa:2048 -keyout "${keyPath}" -out "${certPath}" -days 365 -nodes -subj "/CN=localhost"`;
+  // Generate self-signed certificate valid for 1 year with stronger encryption
+  const command = `openssl req -x509 -newkey rsa:4096 -keyout "${keyPath}" -out "${certPath}" -days 365 -nodes -subj "/CN=localhost/C=US/ST=Local/L=Development/O=Portfolio/OU=Development"`;
   
   execSync(command, { stdio: "inherit" });
   
@@ -38,6 +65,9 @@ try {
   console.log("\n📝 To use HTTPS in development:");
   console.log('   Set environment variable: VITE_HTTPS=true');
   console.log('   Then run: npm run dev');
+  console.log("\n🔄 To renew certificates in the future:");
+  console.log('   Run: node scripts/generate-certs.js --renew');
+  console.log('   Certificates will auto-renew when < 30 days remain');
   
 } catch (error) {
   console.error("❌ Failed to generate certificates:");

@@ -36,18 +36,28 @@ server {
     ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
     
-    # SSL Session Configuration
+    # SSL Session Configuration (Updated 2026)
     ssl_session_timeout 1d;
     ssl_session_cache shared:SSL:50m;
     ssl_session_tickets off;
     
-    # Modern TLS Configuration (TLS 1.2+)
+    # Latest TLS Configuration (TLS 1.3 preferred, 1.2 fallback)
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+    # TLS 1.3 cipher suites (handled automatically by OpenSSL 1.1.1+)
+    ssl_ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256;
     ssl_prefer_server_ciphers off;
     
-    # HSTS (HTTP Strict Transport Security) - Force HTTPS for 1 year
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    # Modern OCSP stapling (faster certificate validation)
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 1.1.1.1 1.0.0.1 8.8.8.8 8.8.4.4 valid=300s;
+    resolver_timeout 5s;
+    
+    # HSTS (HTTP Strict Transport Security) - Force HTTPS for 2 years (2026 standard)
+    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+    
+    # Certificate Transparency (Enhanced security)
+    add_header Expect-CT "max-age=86400, enforce" always;
     
     # Content Security Policy - Prevent XSS and injection attacks
     add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://cdn.gpteng.co; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://cdn.gpteng.co; frame-ancestors 'self'; upgrade-insecure-requests;" always;
